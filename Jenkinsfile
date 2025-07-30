@@ -7,7 +7,7 @@ pipeline {
         AWS_SECRET_ACCESS_KEY = credentials('your-aws-secret-access-key-credential-id')
         DOCKER_HUB_CREDENTIALS = credentials('your-docker-hub-credential-id')
         SERVER_SSH_CREDENTIALS = credentials('your-ssh-credential-id')
-        DOCKER_IMAGE_NAME = "kishore/aws-dashboard:latest" // Replace with your Docker Hub repo name
+        DOCKER_IMAGE_NAME = "kishoresuzil/aws-dashboard:latest" // Replace with your Docker Hub repo name
     }
 
     stages {
