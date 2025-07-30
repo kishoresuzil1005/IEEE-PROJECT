@@ -3,11 +3,10 @@ pipeline {
 
     environment {
         // Use the IDs of the credentials you created in Jenkins
-        AWS_ACCESS_KEY_ID = credentials('your-aws-access-key-id-credential-id')
-        AWS_SECRET_ACCESS_KEY = credentials('your-aws-secret-access-key-credential-id')
-        DOCKER_HUB_CREDENTIALS = credentials('your-docker-hub-credential-id')
-        SERVER_SSH_CREDENTIALS = credentials('your-ssh-credential-id')
-        DOCKER_IMAGE_NAME = "kishoresuzil/aws-dashboard:latest" // Replace with your Docker Hub repo name
+        AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')
+        AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
+        DOCKER_HUB_CREDENTIALS = credentials('docker-hub-credentials')
+        DOCKER_IMAGE_NAME = "kishoresuzil/aws-dashboard:latest"
     }
 
     stages {
@@ -24,20 +23,11 @@ pipeline {
                 }
             }
         }
-        stage('Deploy to Server') {
+        stage('Deploy to Local Machine') {
             steps {
-                // Adjust this step based on whether you are deploying locally or to a remote server
-                script {
-                    if (isUnix()) {
-                        // Remote Deployment via SSH
-                        sshagent(['your-ssh-credential-id']) {
-                            sh "ssh -o StrictHostKeyChecking=no YOUR_SERVER_USER@YOUR_SERVER_IP 'docker pull ${DOCKER_IMAGE_NAME} && docker stop aws-dashboard-app || true && docker rm aws-dashboard-app || true && docker run -d -p 5000:5000 -e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} -e AWS_REGION=us-east-1 --name aws-dashboard-app ${DOCKER_IMAGE_NAME}'"
-                        }
-                    } else {
-                        // Local Deployment
-                        sh "docker stop aws-dashboard-app || true && docker rm aws-dashboard-app || true && docker run -d -p 5000:5000 -e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} -e AWS_REGION=us-east-1 --name aws-dashboard-app ${DOCKER_IMAGE_NAME}"
-                    }
-                }
+                sh "docker stop aws-dashboard-app || true"
+                sh "docker rm aws-dashboard-app || true"
+                sh "docker run -d -p 5000:5000 -e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} -e AWS_REGION=us-east-1 --name aws-dashboard-app ${DOCKER_IMAGE_NAME}"
             }
         }
     }
