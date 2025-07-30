@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elastic IPs</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <!-- Removed Amplify SDK as authentication is no longer used -->
+</head>
+<body>
+    <header>
+        <h1>AWS Cloud Dashboard</h1>
+        <nav>
+            <ul>
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="ec2-overview.html">EC2 Dashboard</a></li>
+                <li><a href="ec2-free-tier-monitor.html">Free Tier Monitor</a></li>
+                <!-- Removed Auth status dependent link -->
+            </ul>
+        </nav>
+    </header>
+    <main class="container">
+        <h2>Elastic IPs</h2>
+        <button id="refreshButton" class="action-button">Refresh Elastic IPs</button>
+        <div id="loadingMessage" style="display: block;">Loading Elastic IPs...</div>
+        <div id="errorMessage" class="error-message" style="display: none;"></div>
+        <table id="elasticIpsTable">
+            <thead>
+                <tr>
+                    <th>Public IP</th>
+                    <th>Allocation ID</th>
+                    <th>Association ID</th>
+                    <th>Instance ID</th>
+                    <th>Private IP Address</th>
+                    <th>Domain</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Elastic IPs will be loaded here -->
+            </tbody>
+        </table>
+    </main>
+    <footer>
+        <p>&copy; 2025 AWS Dashboard</p>
+    </footer>
+
+    <script src="../js/common.js"></script>
+    <script src="../js/ec2-elastic-ips.js"></script>
+    <!-- Removed authentication-related JavaScript -->
+</body>
+</html>
+

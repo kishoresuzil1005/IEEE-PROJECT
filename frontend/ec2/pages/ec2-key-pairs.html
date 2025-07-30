@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EC2 Key Pairs</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <!-- Removed Amplify SDK as authentication is no longer used -->
+</head>
+<body>
+    <header>
+        <h1>AWS Cloud Dashboard</h1>
+        <nav>
+            <ul>
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="ec2-overview.html">EC2 Dashboard</a></li>
+                <li><a href="ec2-free-tier-monitor.html">Free Tier Monitor</a></li>
+                <!-- Removed Auth status dependent link -->
+            </ul>
+        </nav>
+    </header>
+    <main class="container">
+        <h2>EC2 Key Pairs</h2>
+        <div class="actions-container">
+            <input type="text" id="keyNameInput" placeholder="Enter key pair name">
+            <button id="createKeyPairButton" class="action-button">Create Key Pair</button>
+            <button id="refreshKeyPairsButton" class="action-button">Refresh Key Pairs</button>
+        </div>
+        <div id="loadingMessage">Loading Key Pairs...</div>
+        <div id="errorMessage" class="error-message" style="display: none;"></div>
+
+        <table id="keyPairsTable">
+            <thead>
+                <tr>
+                    <th>Key Name</th>
+                    <th>Key Fingerprint</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Key pairs will be loaded here by JavaScript -->
+            </tbody>
+        </table>
+    </main>
+    <footer>
+        <p>&copy; 2025 AWS Dashboard</p>
+    </footer>
+
+    <script src="../js/common.js"></script>
+    <script src="../js/ec2-key-pairs.js"></script>
+    <!-- Removed authentication-related JavaScript -->
+</body>
+</html>
+

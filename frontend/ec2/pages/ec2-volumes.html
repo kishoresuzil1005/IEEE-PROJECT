@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EC2 Volumes</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <!-- Removed Amplify SDK as authentication is no longer used -->
+</head>
+<body>
+    <header>
+        <h1>AWS Cloud Dashboard</h1>
+        <nav>
+            <ul>
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="ec2-overview.html">EC2 Dashboard</a></li>
+                <li><a href="ec2-free-tier-monitor.html">Free Tier Monitor</a></li>
+                <!-- Removed Auth status dependent link -->
+            </ul>
+        </nav>
+    </header>
+    <main class="container">
+        <h2>EBS Volumes</h2>
+        <button id="refreshButton" class="action-button">Refresh Volumes</button>
+        <div id="loadingMessage" style="display: block;">Loading Volumes...</div>
+        <div id="errorMessage" class="error-message" style="display: none;"></div>
+        <table id="volumesTable">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Volume ID</th>
+                    <th>Size (GiB)</th>
+                    <th>Availability Zone</th>
+                    <th>State</th>
+                    <th>Volume Type</th>
+                    <th>Created Time</th>
+                    <th>Attached To</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Volumes will be loaded here -->
+            </tbody>
+        </table>
+    </main>
+    <footer>
+        <p>&copy; 2025 AWS Dashboard</p>
+    </footer>
+
+    <script src="../js/common.js"></script>
+    <script src="../js/ec2-volumes.js"></script>
+    <!-- Removed authentication-related JavaScript -->
+</body>
+</html>
+

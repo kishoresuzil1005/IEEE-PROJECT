@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EC2 Free Tier Monitor</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <!-- Include Chart.js for graphing -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+    <!-- Removed Amplify SDK as authentication is no longer used -->
+</head>
+<body>
+    <header>
+        <h1>AWS Cloud Dashboard</h1>
+        <nav>
+            <ul>
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="ec2-overview.html">EC2 Dashboard</a></li>
+                <li><a href="ec2-free-tier-monitor.html" class="active">Free Tier Monitor</a></li>
+                <!-- Removed Auth status dependent link -->
+            </ul>
+        </nav>
+    </header>
+    <main class="container">
+        <h2>EC2 Free Tier Usage Monitor (t2/t3.micro hours)</h2>
+        <div id="loadingFreeTierMessage" style="display: block;">Loading Free Tier usage data...</div>
+        <div id="errorFreeTierMessage" class="error-message" style="display: none;"></div>
+
+        <div class="metrics-summary">
+            <p><strong>Current Month's Usage:</strong> <span id="currentUsage">--</span> hours</p>
+            <p><strong>Free Tier Limit:</strong> <span id="freeTierLimit">750</span> hours/month</p>
+            <p><strong>Remaining Hours:</strong> <span id="remainingHours">--</span> hours</p>
+        </div>
+
+        <div class="chart-container">
+            <canvas id="freeTierChart"></canvas>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2025 AWS Dashboard</p>
+    </footer>
+
+    <script src="../js/common.js"></script>
+    <script src="../js/ec2-free-tier-monitor.js"></script>
+    <!-- Removed authentication-related JavaScript -->
+</body>
+</html>
+

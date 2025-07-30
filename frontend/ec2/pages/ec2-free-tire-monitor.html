@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EC2 Free Tier Monitor</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <!-- Include Chart.js for graphing -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+    <!-- Include Amplify SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/aws-amplify@latest/dist/aws-amplify.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1>AWS Cloud Dashboard</h1>
+        <nav>
+            <ul>
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="ec2-overview.html">EC2 Dashboard</a></li>
+                <li><a href="ec2-free-tier-monitor.html" class="active">Free Tier Monitor</a></li>
+                <!-- Auth status dependent link -->
+                <li id="authStatusLinkContainer"><a href="../../auth/pages/signin.html" id="authStatusLink">Sign In</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main class="container">
+        <h2>EC2 Free Tier Usage Monitor (t2/t3.micro hours)</h2>
+        <div id="loadingFreeTierMessage" style="display: block;">Loading Free Tier usage data...</div>
+        <div id="errorFreeTierMessage" class="error-message" style="display: none;"></div>
+
+        <div class="metrics-summary">
+            <p><strong>Current Month's Usage:</strong> <span id="currentUsage">--</span> hours</p>
+            <p><strong>Free Tier Limit:</strong> <span id="freeTierLimit">750</span> hours/month</p>
+            <p><strong>Remaining Hours:</strong> <span id="remainingHours">--</span> hours</p>
+        </div>
+
+        <div class="chart-container">
+            <canvas id="freeTierChart"></canvas>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; 2025 AWS Dashboard</p>
+    </footer>
+
+    <script src="../js/common.js"></script>
+    <script src="../js/ec2-free-tier-monitor.js"></script>
+    <script>
+        // Ensure Amplify is configured on this page too
+        Amplify.configure({
+            Auth: {
+                region: 'us-east-1', // Your AWS Region
+                userPoolId: 'us-east-1_tp0O9CBmV', // Your Cognito User Pool ID
+                userPoolWebClientId: '1m58mb2fisbh3veflevoq63aoc', // Your Cognito App Client ID
+                authenticationFlowType: 'USER_SRP_AUTH'
+            },
+            Credentials: {
+                region: 'us-east-1', // Must match User Pool region
+                identityPoolId: 'us-east-1:4522fe2f-4611-4bb6-a0f3-be52ef7ffd94' // Your Cognito Identity Pool ID
+            }
+        });
+
+        async function updateAuthUIOnProtectedPages() {
+            const authStatusLinkContainer = document.getElementById('authStatusLinkContainer');
+            const authStatusLink = document.getElementById('authStatusLink');
+
+            try {
+                const user = await Amplify.Auth.currentAuthenticatedUser();
+                authStatusLink.textContent = 'Sign Out';
+                authStatusLink.href = '#';
+                authStatusLink.onclick = async (e) => {
+                    e.preventDefault();
+                    try {
+                        await Amplify.Auth.signOut();
+                        console.log('User signed out from protected page.');
+                        window.location.href = '../../auth/pages/signin.html';
+                    } catch (error) {
+                        console.error('Error signing out:', error);
+                        alert(`Error signing out: ${error.message}`);
+                    }
+                };
+            } catch (error) {
+                window.location.href = '../../auth/pages/signin.html';
+            }
+        }
+        document.addEventListener('DOMContentLoaded', updateAuthUIOnProtectedPages);
+    </script>
+</body>
+</html>
+

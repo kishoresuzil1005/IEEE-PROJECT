@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EC2 Overview</title>
+    <link rel="stylesheet" href="../../css/style.css">
+    <!-- Removed Amplify SDK as authentication is no longer used -->
+</head>
+<body>
+    <header>
+        <h1>AWS Cloud Dashboard</h1>
+        <nav>
+            <ul>
+                <li><a href="../../index.html">Home</a></li>
+                <li><a href="ec2-overview.html" class="active">EC2 Dashboard</a></li>
+                <li><a href="ec2-free-tier-monitor.html">Free Tier Monitor</a></li>
+                <!-- Removed Auth status dependent link -->
+            </ul>
+        </nav>
+    </header>
+    <main class="container">
+        <h2>EC2 Resources Overview</h2>
+        <div id="loadingMessage" style="display: block;">Loading EC2 overview...</div>
+        <div id="errorMessage" class="error-message" style="display: none;"></div>
+
+        <div class="resource-grid" id="resourceGrid">
+            </div>
+
+        <!-- Removed EC2 Free Tier Monitor Section from here -->
+    </main>
+    <footer>
+        <p>&copy; 2025 AWS Dashboard</p>
+    </footer>
+
+    <script src="../js/common.js"></script>
+    <script src="../js/ec2-overview.js"></script>
+    <!-- Removed authentication-related JavaScript -->
+</body>
+</html>
+
