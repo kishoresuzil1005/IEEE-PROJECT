@@ -24,7 +24,7 @@ pipeline {
                 )]) {
                     sh '''
                         echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-                        docker push ${DOCKER_IMAGE_NAME}
+                        docker push $DOCKER_IMAGE_NAME
                     '''
                 }
             }
@@ -33,6 +33,7 @@ pipeline {
         stage('Deploy to Local Machine') {
             steps {
                 withEnv([
+                    "DOCKER_IMAGE_NAME=${DOCKER_IMAGE_NAME}",
                     "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}",
                     "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}"
                 ]) {
@@ -43,7 +44,7 @@ pipeline {
                             -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
                             -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
                             -e AWS_REGION=us-east-1 \
-                            --name aws-dashboard-app ${DOCKER_IMAGE_NAME}
+                            --name aws-dashboard-app $DOCKER_IMAGE_NAME
                     '''
                 }
             }
