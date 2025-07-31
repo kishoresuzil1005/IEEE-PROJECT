@@ -6,7 +6,7 @@ pipeline {
         AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')
         AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
         DOCKER_HUB_CREDENTIALS = credentials('docker-hub-credentials')
-        DOCKER_IMAGE_NAME = "kishoresuzil/aws-dashboard:latest"
+        DOCKER_IMAGE_NAME = "kishoresuzil/aws-dashboard"
     }
 
     stages {
