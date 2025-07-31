@@ -14,7 +14,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh "docker build -t ${DOCKER_IMAGE_NAME} ."
+                sh "docker build -t kishoresuzil/aws-dashboard:latest ."
             }
         }
 
