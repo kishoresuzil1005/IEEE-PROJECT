@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    environment {
-        DOCKER_IMAGE_NAME = "kishoresuzil/aws-dashboard:latest"
-    }
-
     stages {
         stage('Checkout Code') {
             steps {
@@ -14,7 +10,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh "docker build -t kishoresuzil/aws-dashboard:latest ."
+                sh 'docker build -t kishoresuzil/aws-dashboard:latest .'
             }
         }
 
