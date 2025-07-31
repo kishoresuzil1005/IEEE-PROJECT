@@ -26,9 +26,9 @@ pipeline {
         }
         stage('Deploy to Local Machine') {
             steps {
-                sh "docker stop aws-dashboard|| true"
-                sh "docker rm aws-dashboard || true"
-                sh "docker run -d -p 5000:5000 -e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} -e AWS_REGION=us-east-1 --name aws-dashboard ${DOCKER_IMAGE_NAME}"
+                sh "docker stop aws-dashboard-app || true"
+                sh "docker rm aws-dashboard-app || true"
+                sh "docker run -d -p 5000:5000 -e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} -e AWS_REGION=us-east-1 --name aws-dashboard-app ${DOCKER_IMAGE_NAME}"
             }
         }
     }
