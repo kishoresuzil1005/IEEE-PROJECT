@@ -6,6 +6,12 @@ pipeline {
     }
 
     stages {
+        stage('Checkout Code') {
+            steps {
+                checkout scm
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 sh "docker build -t ${DOCKER_IMAGE_NAME} ."
@@ -19,10 +25,10 @@ pipeline {
                     usernameVariable: 'DOCKER_USERNAME',
                     passwordVariable: 'DOCKER_PASSWORD'
                 )]) {
-                    sh """
-                        echo "\$DOCKER_PASSWORD" | docker login -u "\$DOCKER_USERNAME" --password-stdin
-                        docker push ${DOCKER_IMAGE_NAME}
-                    """
+                    sh '''
+                        echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+                        docker push kishoresuzil/aws-dashboard:latest
+                    '''
                 }
             }
         }
@@ -33,17 +39,15 @@ pipeline {
                     string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
                     string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY')
                 ]) {
-                    withEnv(["DOCKER_IMAGE_NAME=${DOCKER_IMAGE_NAME}"]) {
-                        sh """
-                            docker stop aws-dashboard-app || true
-                            docker rm aws-dashboard-app || true
-                            docker run -d -p 5000:5000 \
-                                -e AWS_ACCESS_KEY_ID=\$AWS_ACCESS_KEY_ID \
-                                -e AWS_SECRET_ACCESS_KEY=\$AWS_SECRET_ACCESS_KEY \
-                                -e AWS_REGION=us-east-1 \
-                                --name aws-dashboard-app \$DOCKER_IMAGE_NAME
-                        """
-                    }
+                    sh '''
+                        docker stop aws-dashboard-app || true
+                        docker rm aws-dashboard-app || true
+                        docker run -d -p 5000:5000 \
+                            -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
+                            -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
+                            -e AWS_REGION=us-east-1 \
+                            --name aws-dashboard-app kishoresuzil/aws-dashboard:latest
+                    '''
                 }
             }
         }
