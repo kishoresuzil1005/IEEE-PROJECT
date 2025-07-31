@@ -2,9 +2,6 @@ pipeline {
     agent any
 
     environment {
-        AWS_ACCESS_KEY_ID = credentials('aws-access-key-id')
-        AWS_SECRET_ACCESS_KEY = credentials('aws-secret-access-key')
-        DOCKER_HUB_CREDENTIALS = credentials('docker-hub-credentials')
         DOCKER_IMAGE_NAME = "kishoresuzil/aws-dashboard:latest"
     }
 
@@ -22,30 +19,31 @@ pipeline {
                     usernameVariable: 'DOCKER_USERNAME',
                     passwordVariable: 'DOCKER_PASSWORD'
                 )]) {
-                    sh '''
-                        echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
-                        docker push $DOCKER_IMAGE_NAME
-                    '''
+                    sh """
+                        echo "\$DOCKER_PASSWORD" | docker login -u "\$DOCKER_USERNAME" --password-stdin
+                        docker push ${DOCKER_IMAGE_NAME}
+                    """
                 }
             }
         }
 
         stage('Deploy to Local Machine') {
             steps {
-                withEnv([
-                    "DOCKER_IMAGE_NAME=${DOCKER_IMAGE_NAME}",
-                    "AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}",
-                    "AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}"
+                withCredentials([
+                    string(credentialsId: 'aws-access-key-id', variable: 'AWS_ACCESS_KEY_ID'),
+                    string(credentialsId: 'aws-secret-access-key', variable: 'AWS_SECRET_ACCESS_KEY')
                 ]) {
-                    sh '''
-                        docker stop aws-dashboard-app || true
-                        docker rm aws-dashboard-app || true
-                        docker run -d -p 5000:5000 \
-                            -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID \
-                            -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY \
-                            -e AWS_REGION=us-east-1 \
-                            --name aws-dashboard-app $DOCKER_IMAGE_NAME
-                    '''
+                    withEnv(["DOCKER_IMAGE_NAME=${DOCKER_IMAGE_NAME}"]) {
+                        sh """
+                            docker stop aws-dashboard-app || true
+                            docker rm aws-dashboard-app || true
+                            docker run -d -p 5000:5000 \
+                                -e AWS_ACCESS_KEY_ID=\$AWS_ACCESS_KEY_ID \
+                                -e AWS_SECRET_ACCESS_KEY=\$AWS_SECRET_ACCESS_KEY \
+                                -e AWS_REGION=us-east-1 \
+                                --name aws-dashboard-app \$DOCKER_IMAGE_NAME
+                        """
+                    }
                 }
             }
         }
